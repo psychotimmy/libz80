@@ -327,42 +327,40 @@ static int doComplement(byte v)
 }
 
  
-/** Do an arithmetic operation (ADD, SUB, ADC, SBC y CP) */
+/* Do an arithmetic operation (ADD, SUB, ADC, SBC and CP) */
 static byte doArithmetic (Z80Context* ctx, byte value, int withCarry, int isSub)
 {
-	ushort res; /* To detect carry */
+	ushort res;
+	byte carryIn = 0;
+
+	if (withCarry && GETFLAG(F_C)) ++carryIn;
 
 	if (isSub)
 	{
 		SETFLAG(F_N);
-		VALFLAG(F_H, (((BR.A & 0x0F) - (value & 0x0F)) & 0x10) != 0);
-		res = BR.A - value;
-		if (withCarry && GETFLAG(F_C))
-			res--;
+		res = BR.A - value - carryIn;
 	}
 	else
 	{
 		RESFLAG(F_N);
-		VALFLAG(F_H, (((BR.A & 0x0F) + (value & 0x0F)) & 0x10) != 0);
-		res = BR.A + value;
-		if (withCarry && GETFLAG(F_C))
-			res++;
+		res = BR.A + value + carryIn;
 	}
-	VALFLAG(F_S, ((res & 0x80) != 0));
-	VALFLAG(F_C, ((res & 0x100) != 0));
-	VALFLAG(F_Z, ((res & 0xff) == 0));
-	int minuend_sign = BR.A & 0x80;
-	int subtrahend_sign = value & 0x80;
-	int result_sign = res & 0x80;
-	int overflow;
-	if(isSub)
-		overflow = minuend_sign != subtrahend_sign && result_sign != minuend_sign;
-	else
-		overflow = minuend_sign == subtrahend_sign && result_sign != minuend_sign;
-	VALFLAG(F_PV, overflow);
-	adjustFlags(ctx, res);
 
-	return (byte)(res & 0xFF);
+	short hvflags = BR.A ^ value ^ res;	/* Used for H and V flags */
+	VALFLAG(F_C, ((res & 0x100) != 0));	/* (Re)set carry flag */
+
+	res &= 0xFF;	/* Discard carry now C flag (re)set & H/V primed */
+
+	/* (Re)set all remaining flags */
+
+	VALFLAG(F_S, ((res & 0x80) != 0));
+	VALFLAG(F_Z, (res == 0));
+	VALFLAG(F_H, (hvflags & 0x10));
+	VALFLAG(F_PV, (((hvflags << 1) ^ hvflags) & 0x100));
+
+	adjustFlags(ctx, (byte) res);	/* No change for CP, so reset there */
+
+	return (byte)(res);
 }
 
 
