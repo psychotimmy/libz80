@@ -5,7 +5,8 @@ libz80 library - EmulatorKit / RC2040 compatible version
 Tim Holyoake, February 2024.
 
 This library takes the [EmulatorKit](https://github.com/EtchedPixels/EmulatorKit/) / [RC2040](https://github.com/ExtremeElectronics/RC2040/) fork of the libz80 library as of February 2024 and fixes a number of issues. I've created it as there are 
-breaking fixes in both the EmulatorKit / RC2040 version of the library (see the Z80 context structure for example) and the current Gabriel Gambetta 
+breaking fixes in both the EmulatorKit / RC2040 version of the library (see the Z80 context structure for example) and the current 
+[Gabriel Gambetta](https://github.com/ggambetta/libz80/) 
 version (see the size_t pointer issue) which mean that merging the two versions together is beyond my current scope of wanting to ensure the RC2040 
 emulator software is as close as possible in the operation of the Z80 cpu to real RC2014 hardware.
 
