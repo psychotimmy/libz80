@@ -1,0 +1,6 @@
+REM - Compile using Digital Research CBASIC 2.0 or 2.07 under CP/M 2.2
+REM - Original RC2040 version of libz80 library outputs 4.02...
+REM - Bugfixed version outputs 5.65...
+REM - Tim Holyoake, 24th February 2024.
+
+PRINT "Square root of 32 is ";SQR(32)
