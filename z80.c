@@ -618,35 +618,41 @@ static byte doCP_HL(Z80Context * ctx)
 }
 
 
-/* The DAA opcode
- * According to the value in A and the flags set, add a value to A
- * This algorithm taken from:
- * http://www.worldofspectrum.org/faq/reference/z80reference.htm
- * and verified against the specification in the Zilog
- * Z80 Family CPU User Manual, rev. 04, Dec. 2004, pp. 166-167
- */	
+/* Algorithm based on yaze-ag z80 emulator v2.51.3     */
+static void doDAA(Z80Context * ctx)
+{
+        ushort acu = BR.A;
+        byte temp = acu & 0x0F;
+        byte cflag = GETFLAG(F_C);
 
-static void doDAA(Z80Context * ctx) {
-  int correction_factor = 0x00;
-  int carry = 0;
-  if(BR.A > 0x99 || GETFLAG(F_C)) {
-    correction_factor |= 0x60;
-    carry = 1;
-  }
-  if((BR.A & 0x0f) > 9 || GETFLAG(F_H))
-    correction_factor |= 0x06;
-  int a_before = BR.A;
-  if(GETFLAG(F_N))
-    BR.A -= correction_factor;
-  else              
-    BR.A += correction_factor;
-  VALFLAG(F_H, (a_before ^ BR.A) & 0x10);
-  VALFLAG(F_C, carry);
-  VALFLAG(F_S, (BR.A & 0x80) != 0);
-  VALFLAG(F_Z, (BR.A == 0));
-  VALFLAG(F_PV, parityBit[BR.A]);
-  adjustFlags(ctx, BR.A);
+        if (GETFLAG(F_N)) {
+                int hd = (cflag || (acu > 0x99));
+                if (GETFLAG(F_H) || (temp > 9)) {
+                        if (temp > 5) RESFLAG(F_H);
+                        acu -= 0x06;
+                        acu &= 0xff;
+                }
+                if (hd) acu -= 0x160;
+        }
+
+        else {
+                if (GETFLAG(F_H) || (temp > 9)) {
+                        VALFLAG(F_H, (temp > 9));
+                        acu += 0x06;
+                }
+                if (cflag || ((acu & 0x1f0) > 0x90)) acu += 0x60;
+        }
+
+        cflag |=  (acu >> 8) & 0x01;
+        VALFLAG(F_C, cflag);
+
+        BR.A = acu & 0xff;
+        VALFLAG(F_S, (BR.A & 0x80));
+        VALFLAG(F_Z, (BR.A == 0));
+        VALFLAG(F_PV, parityBit[BR.A]);
+        adjustFlags(ctx,BR.A);
 }
+
  
 #include "codegen/opcodes_impl.c"
 
