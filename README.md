@@ -4,11 +4,13 @@ libz80 library - EmulatorKit / RC2040 compatible version
 
 Tim Holyoake, February 2024.
 
-This library takes the EmulatorKit / RC2040 forks of the libz80 library as of February 2024 and fixes a number of issues.
+This library takes the EmulatorKit / RC2040 fork of the libz80 library as of February 2024 and fixes a number of issues.
 
 The library now passes all except one of the zexdoc test suite and all bar three of the zexall test suite (as found in yaze-ag 2.51.3).
-Unsurprisingly, both these test suites pass in their entirety when run on actual RC2014 hardware. For all practical purposes however,
-the failing tests are unlikely to impact anything running on an RC2040 under CP/M 2.2 - unless you know differently!
+
+Unsurprisingly, both these test suites pass in their entirety when run on actual RC2014 hardware. 
+
+For all practical purposes however, the failing tests are unlikely to impact anything running on an RC2040 under CP/M 2.2 - unless you know differently!
 
 libz80 - Z80 emulation library
 ===============================
