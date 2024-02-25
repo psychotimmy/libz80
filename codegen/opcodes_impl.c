@@ -1175,8 +1175,8 @@ static void CPD (Z80Context* ctx)
 		SETFLAG(F_C);
 	else
 		RESFLAG(F_C);
-	VALFLAG(F_5, value & (1 << 1));
-	VALFLAG(F_3, value & (1 << 3));
+	VALFLAG(F_5, value & 0x02);
+	VALFLAG(F_3, value & 0x08);
 }
 
 
@@ -1202,8 +1202,8 @@ static void CPI (Z80Context* ctx)
 	WR.BC--;
 	VALFLAG(F_PV, WR.BC != 0);
 	VALFLAG(F_C, carry);
-	VALFLAG(F_5, value & (1 << 2));
-	VALFLAG(F_3, value & (1 << 3));
+	VALFLAG(F_5, value & 0x02);
+	VALFLAG(F_3, value & 0x08);
 }
 
 
