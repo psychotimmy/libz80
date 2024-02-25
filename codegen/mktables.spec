@@ -142,9 +142,11 @@ RST (0|8|10|18|20|28|30|38)H
 #
 # Misc
 #
-CCF
-	VALFLAG(F_C, (1 - (byte)GETFLAG(F_C) != 0));
+CCF	
+	int cflag = GETFLAG(F_C);
 	RESFLAG(F_N);
+	VALFLAG(F_H,cflag);
+	VALFLAG(F_C, (1-cflag)); 
 	adjustFlags(ctx, BR.A);
 
 SCF
