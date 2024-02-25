@@ -142,7 +142,7 @@ RST (0|8|10|18|20|28|30|38)H
 #
 # Misc
 #
-CCF	
+CCF
 	int cflag = GETFLAG(F_C);
 	RESFLAG(F_N);
 	VALFLAG(F_H,cflag);
@@ -239,8 +239,8 @@ CPD
 		SETFLAG(F_C);
 	else
 		RESFLAG(F_C);
-	VALFLAG(F_5, value & (1 << 1));
-	VALFLAG(F_3, value & (1 << 3));
+	VALFLAG(F_5, value & 0x02);
+	VALFLAG(F_3, value & 0x08);
 
 CPIR
 	%CPI
@@ -260,8 +260,8 @@ CPI
 	WR.BC--;
 	VALFLAG(F_PV, WR.BC != 0);
 	VALFLAG(F_C, carry);
-	VALFLAG(F_5, value & (1 << 2));
-	VALFLAG(F_3, value & (1 << 3));
+	VALFLAG(F_5, value & 0x02);
+	VALFLAG(F_3, value & 0x08);
 
 #
 # INC and DEC
