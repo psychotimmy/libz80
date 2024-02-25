@@ -1042,8 +1042,10 @@ static void CALL_Z_off_nn (Z80Context* ctx)
 
 static void CCF (Z80Context* ctx)
 {
-	VALFLAG(F_C, (1 - (byte)GETFLAG(F_C) != 0));
+	int cflag = GETFLAG(F_C);
 	RESFLAG(F_N);
+	VALFLAG(F_H,cflag);
+	VALFLAG(F_C, (1-cflag)); 
 	adjustFlags(ctx, BR.A);
 }
 
@@ -8799,5 +8801,3 @@ static void XOR_n (Z80Context* ctx)
 {
 	doXOR(ctx, read8(ctx, ctx->PC++));
 }
-
-
