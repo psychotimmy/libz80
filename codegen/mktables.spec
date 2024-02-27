@@ -603,6 +603,7 @@ RRD
 	write8(ctx, WR.HL, hl);
 	RESFLAG(F_H | F_N);
 	adjustFlagSZP(ctx, BR.A);
+	adjustFlags(ctx, BR.A);
 
 
 (SL|SR)(L|A) \(HL\)
