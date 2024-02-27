@@ -7532,6 +7532,7 @@ static void RRD (Z80Context* ctx)
 	write8(ctx, WR.HL, hl);
 	RESFLAG(F_H | F_N);
 	adjustFlagSZP(ctx, BR.A);
+	adjustFlags(ctx, BR.A);
 }
 
 
@@ -8801,3 +8802,5 @@ static void XOR_n (Z80Context* ctx)
 {
 	doXOR(ctx, read8(ctx, ctx->PC++));
 }
+
+
