@@ -21,7 +21,7 @@
       INTEGER CT, SR
       SR = SQR(NUM)+0.5
       CT = 1
-      WHILE (CT <= PC) AND (P%(CT) <= SR)
+      WHILE (CT <= PC) AND (P(CT) <= SR)
         IF MOD(NUM,P(CT)) = 0 THEN SIEVE = 0: RETURN
         CT = CT+1
       WEND
