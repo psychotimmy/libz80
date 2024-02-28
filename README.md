@@ -16,7 +16,7 @@ Unsurprisingly, both these test suites pass in their entirety when run on actual
 
 For all practical purposes the failing tests are unlikely to impact anything running on an RC2040 under CP/M 2.2 - unless you know differently!
 
-The rc2040tests directory contain a couple of programs that now produce correct results. They require the Digital Research CBASIC 2.0 (or 2.07) compiler
+The rc2040tests directory contains a couple of programs that now produce correct results. They require the Digital Research CBASIC 2.0 (or 2.07) compiler
 and linker - see instructions in the comments of primes80.bas.
 
 libz80 - Z80 emulation library
