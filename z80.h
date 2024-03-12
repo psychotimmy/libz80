@@ -42,7 +42,8 @@ typedef void (*Z80DataOut)	(int param, ushort address, byte data);
 
 /** 
  * A Z80 register set.
- * An union is used since we want independent access to the high and low bytes of the 16-bit registers.
+ * An union is used since we want independent access to the high and low bytes
+ * of the 16-bit registers.
  */
 typedef union 
 {
@@ -63,7 +64,7 @@ typedef union
 /** The Z80 flags */
 typedef enum
 {
-	F_C  =   1,	/**< Carry */
+	F_C  =   1, /**< Carry */
 	F_N  =   2, /**< Sub / Add */
 	F_PV =   4, /**< Parity / Overflow */
 	F_3  =   8, /**< Reserved */
@@ -83,18 +84,18 @@ typedef struct
 	ushort	M1PC;		/** PC at beginning of instruction fetch */
 	byte	R;		/**< Refresh */
 	byte	I;
-	byte	IFF1;	/**< Interrupt Flipflop 1 */
-	byte	IFF2;	/**< Interrupt Flipflop 2 */
+	byte	IFF1;		/**< Interrupt Flipflop 1 */
+	byte	IFF2;		/**< Interrupt Flipflop 2 */
 	byte	IM;		/**< Instruction mode */
 	byte	M1;		/**< M1 line state (only for ifetch) */
 	
 	Z80DataIn	memRead;
 	Z80DataOut	memWrite;
-	int			memParam;
+	int		memParam;
 	
 	Z80DataIn	ioRead;
 	Z80DataOut	ioWrite;
-	int			ioParam;
+	int		ioParam;
 	
 	byte		halted;
 	unsigned	tstates;
@@ -158,7 +159,8 @@ void Z80Debug (Z80Context* ctx, char* dump, char* decode);
 void Z80RESET (Z80Context* ctx);
 
 /** Generates a hardware interrupt.
- * Some interrupt modes read a value from the data bus; this value must be provided in this function call, even
+ * Some interrupt modes read a value from the data bus; 
+ * this value must be provided in this function call, even
  * if the processor ignores that value in the current interrupt mode.
  *
  * @param value The value to read from the data bus
@@ -176,6 +178,5 @@ void Z80NMI (Z80Context* ctx);
 
 /** Raise the NMI line */
 void Z80NMI_Clear (Z80Context* ctx);
-
 
 #endif
